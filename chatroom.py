@@ -2,6 +2,7 @@ from db import User, Chatroom
 from hash import sha512_hash
 import json
 from app import db
+#todo 유저id 룸id 구별
 def verify(id, count,chats, people):
     if(id and count and chats and people):
         chatsjson = json.loads(chats)
@@ -29,3 +30,5 @@ def new_msg(id, count, chats, people, msg):
     if room == True:
         room.temp = room.temp+id+':'+room.temp+';'
         db.session.commit()
+def new_room(id, people):
+    room = Chatroom(id=id, people=people, count=0)
