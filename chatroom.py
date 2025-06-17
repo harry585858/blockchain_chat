@@ -51,13 +51,20 @@ def new_msg(id, roomid, count, chats, people, msg):
 
 # 새 방 생성
 def new_room(id, people):
-    room = Chatroom(
-        id=id,
-        people=people,
-        count=0,
-        first="",
-        last="",
-        temp=""
-    )
-    db.session.add(room)
-    db.session.commit()
+    if id in people:
+        room = Chatroom(
+            id=id,
+            people=people,
+            count=0,
+            first="",
+            last="",
+            temp=""
+        )
+        db.session.add(room)
+        db.session.commit()
+        return True
+    return False
+def remove_temp(roomid: int): #remove temp
+    room = Chatroom.query.filter_by(roomid=roomid)
+    if room:
+        room.temp = ""

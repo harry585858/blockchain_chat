@@ -12,6 +12,7 @@ db.init_app(app)
 
 with app.app_context():
     db.create_all()
+
 @app.route('/enter', methods=['POST'])
 def enter():
     id: str = request.form.get('id')
@@ -20,6 +21,7 @@ def enter():
     chats: str =request.form.get('chats')
     people = request.form.get('people')
     return verify_enter(id,roomid, count, chats, people)
+
 @app.route('/message', methods=['POST'])
 def message():
     id = request.form.get('id')
@@ -29,12 +31,16 @@ def message():
     people = request.form.get('people')
     msg = request.form.get('msg')
     return new_msg(id, roomid, count, chats, people, msg)
+
 @app.route('/createroom', methods=['POST'])
 def createroom(id: str, people):
     id = request.form.get('id')
     people = request.form.get('people')
-    new_room(id, people)
-    return id
+    if new_room(id, people):
+        return id
+    else:
+        return "You are not included", 400
+
 @app.route('/join', methods=['POST'])
 def join():
     id = request.form.get('id')
@@ -42,6 +48,7 @@ def join():
     if id and pw:
         return join_user(id,pw)
     return "Fill it all", 400
+
 @app.route('/delete-account', methods=['DELETE'])
 def delete():
     id = request.form.get('id')
@@ -49,5 +56,7 @@ def delete():
     if id and pw:
         return delete_user(id,pw)
     return "Fill it all", 400
+
+
 if __name__ == '__main__':
     app.run(debug=True)

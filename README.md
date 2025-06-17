@@ -15,3 +15,10 @@ how to use api
   /delete-account
     id,pw
 ```
+
+detail
+```
+  people: string('id:id,')
+  id: string
+  count: int
+  chats: string('id:msg,')
